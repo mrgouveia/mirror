@@ -3,7 +3,7 @@ name: Espelhar LVGL a cada 7 dias
 on:
   schedule:
     - cron: '0 3 * * 0'  # Todo domingo às 03:00 UTC
-  workflow_dispatch:      # Permite execução manual
+  workflow_dispatch:
 
 jobs:
   mirror:
@@ -27,5 +27,5 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           cd lvgl-mirror
-          git remote set-url --push origin https://${GH_TOKEN}@github.com/mrgouveia/mirror.git
+          git remote set-url --push origin https://x-access-token:${GH_TOKEN}@github.com/mrgouveia/mirror.git
           git push --mirror
