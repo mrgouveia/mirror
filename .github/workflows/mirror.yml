@@ -1,0 +1,31 @@
+name: Espelhar LVGL a cada 7 dias
+
+on:
+  schedule:
+    - cron: '0 3 * * 0'  # Todo domingo às 03:00 UTC
+  workflow_dispatch:      # Permite execução manual
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Instalar Git
+        run: sudo apt-get update && sudo apt-get install -y git
+
+      - name: Clonar espelho do repositório LVGL
+        run: |
+          git clone --mirror https://github.com/lvgl/lvgl.git lvgl-mirror
+
+      - name: Atualizar espelho com git remote update
+        run: |
+          cd lvgl-mirror
+          git remote update
+
+      - name: Enviar espelho para repositório destino
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          cd lvgl-mirror
+          git remote set-url --push origin https://${GH_TOKEN}@github.com/mrgouveia/mirror.git
+          git push --mirror
