@@ -13,7 +13,7 @@ jobs:
       - name: Instalar Git
         run: sudo apt-get update && sudo apt-get install -y git
 
-      - name: Clonar espelho do repositório LVGL
+      - name: Clonar repositório LVGL com --mirror
         run: |
           git clone --mirror https://github.com/lvgl/lvgl.git lvgl-mirror
 
@@ -22,10 +22,11 @@ jobs:
           cd lvgl-mirror
           git remote update
 
-      - name: Enviar espelho para repositório destino
+      - name: Enviar branches e tags para repositório destino
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           cd lvgl-mirror
-          git remote set-url --push origin https://x-access-token:${GH_TOKEN}@github.com/mrgouveia/mirror.git
-          git push --mirror
+          git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/mrgouveia/mirror.git
+          git push origin --all
+          git push origin --tags
