@@ -28,8 +28,8 @@ jobs:
       - name: Atualizar espelho com git fetch
         run: |
           cd lvgl-mirror
-          #git fetch origin
-          git remote update
+          git fetch origin
+          #git remote update
 
       - name: Enviar branches e tags para repositório destino
         env:
