@@ -1,4 +1,4 @@
-name: Espelhar LVGL a cada 7 dias
+name: Espelhar LVGL sem refs de pull requests
 
 on:
   schedule:
@@ -16,6 +16,14 @@ jobs:
       - name: Clonar repositório LVGL com --mirror
         run: |
           git clone --mirror https://github.com/lvgl/lvgl.git lvgl-mirror
+
+      - name: Remover refs de pull requests
+        run: |
+          cd lvgl-mirror
+          find .git/refs/pull -type f -exec rm -f {} +
+          git for-each-ref --format='%(refname)' refs/pull | while read ref; do
+            git update-ref -d "$ref"
+          done
 
       - name: Atualizar espelho com git remote update
         run: |
