@@ -20,7 +20,7 @@ jobs:
       - name: Remover refs de pull requests (se existirem)
         run: |
           cd lvgl-mirror
-          git for-each-ref --format='%(refname)' refs/pull | while read ref; do
+          git for-each-ref --format='%(refname)' | grep -E 'refs/(pull|changes|review)/' | while read ref; do
             echo "Removendo ref: $ref"
             git update-ref -d "$ref"
           done
@@ -28,7 +28,8 @@ jobs:
       - name: Atualizar espelho com git fetch
         run: |
           cd lvgl-mirror
-          git fetch origin
+          #git fetch origin
+          git remote update
 
       - name: Enviar branches e tags para repositório destino
         env:
