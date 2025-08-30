@@ -17,11 +17,11 @@ jobs:
         run: |
           git clone --mirror https://github.com/lvgl/lvgl.git lvgl-mirror
 
-      - name: Remover refs de pull requests
+      - name: Remover refs de pull requests (se existirem)
         run: |
           cd lvgl-mirror
-          find .git/refs/pull -type f -exec rm -f {} +
           git for-each-ref --format='%(refname)' refs/pull | while read ref; do
+            echo "Removendo ref: $ref"
             git update-ref -d "$ref"
           done
 
