@@ -25,10 +25,10 @@ jobs:
             git update-ref -d "$ref"
           done
 
-      - name: Atualizar espelho com git remote update
+      - name: Atualizar espelho com git fetch
         run: |
           cd lvgl-mirror
-          git remote update
+          git fetch origin
 
       - name: Enviar branches e tags para repositório destino
         env:
