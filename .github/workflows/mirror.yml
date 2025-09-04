@@ -32,12 +32,13 @@ jobs:
           git config --unset-all remote.origin.push || true
           # Remove qualquer refspec perigosa
           git remote set-url origin https://github.com/lvgl/lvgl.git
-          git remote set-url --push origin https://x-access-token:${GH_TOKEN}@github.com/mrgouveia/mirror.git
+          #git remote set-url --push origin https://x-access-token:${GH_TOKEN}@github.com/mrgouveia/mirror.git
 
       - name: Enviar branches e tags para repositório destino
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           cd lvgl-mirror
+          git remote set-url --push origin https://x-access-token:${GH_TOKEN}@github.com/mrgouveia/mirror.git
           git push origin --all
           git push origin --tags
