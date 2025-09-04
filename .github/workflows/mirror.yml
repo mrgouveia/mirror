@@ -1,4 +1,4 @@
-name: Espelhar LVGL sem refs de pull requests
+name: Espelhar LVGL sem refs ocultas
 
 on:
   schedule:
@@ -17,19 +17,18 @@ jobs:
         run: |
           git clone --mirror https://github.com/lvgl/lvgl.git lvgl-mirror
 
-      - name: Remover refs de pull requests (se existirem)
+      - name: Remover refs ocultas (pull requests)
         run: |
           cd lvgl-mirror
-          git for-each-ref --format='%(refname)' | grep -E 'refs/(pull|changes|review)/' | while read ref; do
-            echo "Removendo ref: $ref"
+          git for-each-ref --format='%(refname)' | grep 'refs/pull/' | while read ref; do
+            echo "Removendo ref oculta: $ref"
             git update-ref -d "$ref"
           done
 
-      - name: Atualizar espelho com git fetch
+      - name: Limpar refspecs de push herdadas
         run: |
           cd lvgl-mirror
-          git fetch origin
-          #git remote update
+          git config --unset-all remote.origin.push || true
 
       - name: Enviar branches e tags para repositório destino
         env:
