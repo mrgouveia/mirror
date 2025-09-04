@@ -1,4 +1,4 @@
-name: Espelhar LVGL sem refs ocultas
+name: Espelhar LVGL sem refs ocultas e sem deletar main
 
 on:
   schedule:
